@@ -1,0 +1,24 @@
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+public class HDFSCreateJavaFile {
+   public static void main(String[] args){
+      try{
+         Configuration conf = new Configuration();
+            conf.set("fs.defaultFS","hdfs://cm1.example.com:8020");
+            conf.set("fs.hdfs.impl","org.apache.hadoop.hdfs.DistributedFileSystem");
+            FileSystem fs = FileSystem.get(conf);
+            byte[] buff = "Say Hello".getBytes();
+            String fileName = "/output/test.txt";
+            FSDataOutputStream os =fs.create(new Path(fileName));
+            os.write(buff,0,buff.length);
+            System.out.println("Create:"+fileName);
+            os.close();
+            fs.close();          
+      } catch (Exception e){
+         e.printStackTrace();
+      } 
+      
+   }
+}
